@@ -14,3 +14,15 @@ int Config::getBacklog() {
 void Config::setBacklog(int val) {
     backlog = val;
 }
+string Config::getAddress() {
+    return address;
+}
+void Config::setAddress(string val) {
+    address = val;
+}
+int Config::getListenPort() {
+    return listen_port;
+}
+void Config::setListenPort(int val) {
+    listen_port = val;
+}

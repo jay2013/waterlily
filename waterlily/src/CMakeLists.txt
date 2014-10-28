@@ -14,8 +14,9 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 add_subdirectory(cfg)
 add_subdirectory(net)
+add_subdirectory(class)
 add_subdirectory(tests)
 
 add_executable(test.e tests/test_init_socket.cpp)
-target_link_libraries(test.e cfg net test)
+target_link_libraries(test.e cfg net class test)
 
