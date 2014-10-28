@@ -23,5 +23,6 @@ private:
     unsigned long major; //version number
     unsigned long minor; 
     int err; //error code
+    time_t req_time;
 };
 #endif //WATERLILY_CLASS_REQUEST_H_

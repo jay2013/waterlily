@@ -7,9 +7,10 @@
 #include "net/NetHandler.h"
 
 extern Config config;
-NetHandler::NetHandler() {
+NetHandler::NetHandler(RequestQueue * val) {
     listener_fd = -1;
     FD_ZERO(&fdset);
+    req_queue = val;
 }
 NetHandler::~NetHandler() {}
 void NetHandler::test() {
@@ -50,18 +51,34 @@ void NetHandler::run() {
                         if(new_fd > fd_max) {
                             fd_max = new_fd;
                         }
+                        addConnection(new_fd);
                     }
                 } else {
                     cout<<"hello world!"<<endl;
-                    char buff[1024] = {0};
-                    size_t size = recv(i, buff, 1024, 0);
-                    if(size > 0) {
-                        cout<<buff<<endl;
+                    ConnectionCache * cache = getConnectionByFd(i);
+                    if(cache != NULL) {
+                        ret =  cache->read();
+                        if(ret == 0) {
+                            queue<string>& tmp = cache->getReadBuffQueue();
+                            while(!tmp.empty()) {
+                                cout<<tmp.front()<<endl;
+                                tmp.pop();
+                            }
+                        }
+                        if(ret == -1) {
+                            closeConnection(i);
+                        }
                     }
                 }
             } //for
         }
     } //for(;;)
+}
+void NetHandler::showStatus() {
+    cout<<"##################################"<<endl;
+    cout<<"NetHandlerStatus:"<<endl;
+    cout<<"Num of Cache:"<<fd_cache.size()<<endl;
+    cout<<"#################################"<<endl;
 }
 int NetHandler::init_socket(const string address, const int port)
 {
@@ -91,3 +108,50 @@ int NetHandler::init_socket(const string address, const int port)
     cout<<listener_fd<<endl;
     return 0;
 }
+
+ConnectionCache * NetHandler::addConnection(int fd) {
+    ConnectionCache * cache = new ConnectionCache(fd);    
+    fd_cache.insert(make_pair(fd, cache));
+    return cache;
+}
+
+ConnectionCache * NetHandler::getConnectionByFd(int fd) {
+    map<int, ConnectionCache *>::const_iterator it = fd_cache.find(fd);
+    if(it != fd_cache.end()) {
+        return it->second;
+    } else {
+        return NULL;
+    }
+}
+
+void NetHandler::removeConnection(int fd) {
+    ConnectionCache * cache = getConnectionByFd(fd);
+    if(cache != NULL) {
+        fd_cache.erase(fd);
+        delete cache;
+    }
+}
+
+void NetHandler::closeConnection(int fd) {
+    if(fd > 0) {
+        FD_CLR(fd, &fdset);
+        close(fd);
+        shutdown(fd, SHUT_RDWR);
+        removeConnection(fd);
+    }
+}
+
+void NetHandler::cleanZombieConnection(size_t time) {
+    for(map<int, ConnectionCache *>::iterator it = fd_cache.begin();
+        it != fd_cache.end();) {
+        if(time - it->second->getCreateTime() >= 30) {
+            FD_CLR(it->first, &fdset);
+            shutdown(it->first, SHUT_RDWR);
+            delete it->second;
+            fd_cache.erase(it++);
+        } else {
+            ++it;
+        }    
+    }
+}
+

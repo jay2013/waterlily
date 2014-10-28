@@ -20,7 +20,7 @@ protected:
     void lockMutex();
     void unlockMutex();
 private:
-    queue<Request> req_queue;
+    queue<Request *> req_queue;
     pthread_mutex_t request_queue_mutex;
 };
 

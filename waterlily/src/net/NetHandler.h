@@ -13,20 +13,31 @@
 #include <arpa/inet.h>
 
 #include <iostream>
+#include <map>
 #include <string>
 
 #include "cfg/Config.h"
+#include "net/ConnectionCache.h"
+#include "class/RequestQueue.h"
 using namespace std;
 
 class NetHandler {
 public:
-    NetHandler();
+    NetHandler(RequestQueue *);
     ~NetHandler();
     void test();
     void run();
+    void showStatus();
 protected:
     int init_socket(const string address, const int port);
+    ConnectionCache * addConnection(int fd);
+    ConnectionCache * getConnectionByFd(int fd);
+    void removeConnection(int fd);
+    void closeConnection(int fd);
+    void cleanZombieConnection(size_t time);
 private:
+    map<int, ConnectionCache *> fd_cache;
+    RequestQueue * req_queue;
     int listener_fd;
     fd_set fdset;
 };

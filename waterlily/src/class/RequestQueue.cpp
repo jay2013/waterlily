@@ -19,7 +19,7 @@ RequestQueue::~RequestQueue() {
 
 void RequestQueue::pushRequest(Request * req) {
     lockMutex();
-    req_queue.push(*req);
+    req_queue.push(req);
     unlockMutex();
 }
 

@@ -10,7 +10,11 @@ ConnectionCache::ConnectionCache(int fd) {
     memset(rbuf, 0, sizeof(rbuf));
     memset(wbuf, 0, sizeof(wbuf));
     cfd = fd;
+    while(!readbuff.empty()) {
+        readbuff.pop();
+    }
     pthread_mutex_init(&write_mutex, NULL);
+    create_time = time(NULL);
 }
 
 ConnectionCache::~ConnectionCache() {}
@@ -28,6 +32,8 @@ int ConnectionCache::read() {
     if(size <= 0) {
         return -1;
     }
+    string tmpStr(rbuf);
+    readbuff.push(tmpStr);
     return 0;
 }
 
@@ -49,4 +55,12 @@ int ConnectionCache::write(string &s) {
     }
     unlockWrite();
     return 0;
+}
+
+queue<string>& ConnectionCache::getReadBuffQueue() {
+    return readbuff;
+}
+
+time_t ConnectionCache::getCreateTime() {
+    return create_time;
 }
