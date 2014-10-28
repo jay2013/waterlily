@@ -20,6 +20,18 @@ public:
     void setAddress(string);
     int getListenPort();
     void setListenPort(int);
+    string getCgiRoot();
+    void setCgiRoot(string);
+    string getDefaultFile();
+    void setDefaultFile(string);
+    string getDocumentRoot();
+    void setDocumentRoot(string);
+    string getConfigFile();
+    void setConfigFile(string);
+    int getMaxClient();
+    void setMaxClient(int);
+    int getTimeout();
+    void setTimeout(int);
 protected:
 private:
     int backlog;

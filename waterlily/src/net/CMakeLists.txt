@@ -4,4 +4,4 @@
 # Copyright (c) 2014 jay2013
 # The MIT License (MIT)
 
-add_library(net NetHandler.cpp)
+add_library(net ConnectionCache.cpp NetHandler.cpp)

@@ -3,6 +3,7 @@ dir="src"
 rm ${dir}/Makefile ${dir}/CMakeCache.txt $dir/cmake_install.cmake 
 rm -rf $dir/CMakeFiles/
 rm -rf $dir/debug/
+rm $dir/test.e
 
 rm -rf $dir/tests/CMakeFiles/
 rm $dir/tests/libtest.a $dir/tests/cmake_install.cmake $dir/tests/Makefile
@@ -16,8 +17,8 @@ rm $dir/tests/libtest.a $dir/tests/cmake_install.cmake $dir/tests/Makefile
 #rm $dir/common/libcommon.a $dir/common/cmake_install.cmake $dir/common/Makefile
 
 # clean files in src_login/class
-#rm -rf $dir/class/CMakeFiles/
-#rm $dir/class/libclass.a $dir/class/cmake_install.cmake $dir/class/Makefile
+rm -rf $dir/class/CMakeFiles/
+rm $dir/class/libclass.a $dir/class/cmake_install.cmake $dir/class/Makefile
 
 #clean files in src_login/net
 rm -rf $dir/net/CMakeFiles/
