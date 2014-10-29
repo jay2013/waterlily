@@ -9,8 +9,8 @@ rm -rf $dir/tests/CMakeFiles/
 rm $dir/tests/libtest.a $dir/tests/cmake_install.cmake $dir/tests/Makefile
 
 # clean files in src_login/event
-# rm rm -rf $dir/event/CMakeFiles/
-# rm $dir/event/libevent.a $dir/event/cmake_install.cmake $dir/event/Makefile
+ rm -rf $dir/utils/CMakeFiles/
+ rm $dir/utils/libutils.a $dir/utils/cmake_install.cmake $dir/utils/Makefile
 
 # clean files in src_login/common
 #rm -rf $dir/common/CMakeFiles/
