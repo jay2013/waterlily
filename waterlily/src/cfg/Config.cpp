@@ -21,6 +21,18 @@ Config::~Config() {}
 int Config::getBacklog() {
     return backlog;
 }
+void Config::readCfgFile(string file) {
+    ifstream ifs(file.c_str());
+    if(!ifs) {
+        cout<<"open file failed"<<endl;
+        return;
+    }
+    setConfigFile(file);
+    string line;
+    while(getline(ifs, line)) {
+        cout<<line<<endl;
+    }
+}
 void Config::setBacklog(int val) {
     backlog = val;
 }

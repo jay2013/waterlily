@@ -7,6 +7,8 @@
 #ifndef WATERLILY_CFG_CONFIG_H_
 #define WATERLILY_CFG_CONFIG_H_
 
+#include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -14,6 +16,7 @@ class Config {
 public:
     Config();
     ~Config();
+    void readCfgFile(string);
     int getBacklog();
     void setBacklog(int);
     string getAddress();
