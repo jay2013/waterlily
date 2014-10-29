@@ -8,6 +8,7 @@
 #define WATERLILY_CLASS_LILYTHREAD_H_
 
 #include <pthread.h>
+#include "common/Const.h"
 
 class LilyThread {
 public:

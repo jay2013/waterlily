@@ -6,5 +6,14 @@
 
 #include "class/LilyThread.h"
 
-LilyThread::LilyThread() {}
-LilyThread::~LilyThread() {}
+LilyThread::LilyThread() {
+    status = DETACHED;
+    pthread_mutex_init(&mutex, NULL);
+    pthread_mutex_lock(&mutex);
+}
+
+LilyThread::~LilyThread() {
+    pthread_mutex_destroy(&mutex);
+    if(status != DETACHED) {
+    }
+}

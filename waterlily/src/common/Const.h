@@ -17,4 +17,10 @@ enum REQUEST_TYPE {
     REQUEST_TYPE_HEAD = 4,
 };
 
+enum THREAD_STATUS {
+    IDLE = 0,
+    RUNNING = 1,
+    DETACHED = 2,
+};
+
 #endif //WATERLILY_COMMON_CONST_H_
