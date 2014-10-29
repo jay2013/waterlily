@@ -31,6 +31,43 @@ void Config::readCfgFile(string file) {
     string line;
     while(getline(ifs, line)) {
         cout<<line<<endl;
+        line = trim(line);
+        if(line.length() == 0) continue;
+        if(line[0] == '#') continue;
+        if(line.find("=") == line.npos) {
+            cout<<"config file illegal!"<<endl;
+            return;
+        }
+        vector<string> elems = split(line, '=');
+        if(elems.size() != 2) {
+            cout<<"config file illegal!"<<endl;
+            return;
+        }
+        for(size_t i = 0; i < elems.size(); ++i) {
+            elems[i] = trim(elems[i]);
+        }
+        if(elems[0] == "backlog") {
+            setBacklog(stringToInt(elems[1])); 
+        } else if(elems[0] == "address") {
+            setAddress(elems[1]);
+        } else if(elems[0] == "listen_port") {
+            setListenPort(stringToInt(elems[1]));
+        } else if(elems[0] == "cgi_root") {
+            setCgiRoot(elems[1]);
+        } else if(elems[0] == "default_file") {
+            setDefaultFile(elems[1]);
+        } else if(elems[0] == "config_file") {
+            setConfigFile(elems[1]);
+        } else if(elems[0] == "document_root") {
+            setDocumentRoot(elems[1]);
+        } else if(elems[0] == "max_client") {
+            setMaxClient(stringToInt(elems[1]));
+        } else if(elems[0] == "timeout") {
+            setTimeout(stringToInt(elems[1]));
+        } else {
+            cout<<"config file illegal!"<<endl;
+            return;
+        }
     }
 }
 void Config::setBacklog(int val) {

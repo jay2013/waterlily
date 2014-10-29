@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
+#include "utils/Util.h"
 using namespace std;
 
 class Config {
